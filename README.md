@@ -1,7 +1,7 @@
 # Server Base - Characters-API
 API in which you can login and meet the characters of your favorite video games
 
-Enviroment setup
+## Enviroment setup
 . database with mongodb
 
 To install dependencies, run 
