@@ -42,7 +42,7 @@ const isAdmin = async (req, res, next) => {
       error.status = 403;
       throw error;
     }
-    if (userFound.roleId !== role.id) {
+    if (userFound.roleId !== role._id) {
       const error = new Error('Requiere admin role');
       error.status = 403;
       throw error;
