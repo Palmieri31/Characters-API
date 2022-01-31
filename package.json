@@ -4,13 +4,17 @@
   "description": "Api to meet videogame characters",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "Federico Palmieri",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
     "morgan": "^1.10.0"
   },

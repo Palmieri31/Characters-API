@@ -14,12 +14,11 @@ const userSchema = new Schema(
             type: String,
             require: true
         },
-        roles: [
-            {
+        roleId: {
               ref: 'Role',
-              type: Schema.Types.ObjectId
-            },
-        ],
+              type: Schema.Types.ObjectId,
+              default: '61f2fcff3809b9666510faad' 
+        }
     },
     {
       timestamps: true,
