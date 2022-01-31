@@ -10,7 +10,13 @@ const getByEmail = async (email) => {
     return user;
 }
 
+const getById = async (id) => {
+    const user = await User.findById(id);
+    return user;
+}
+
 module.exports = {
     create,
-    getByEmail
+    getByEmail,
+    getById
 }
