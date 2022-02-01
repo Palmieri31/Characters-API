@@ -14,7 +14,7 @@ const characterSchema = new Schema (
 	imgUrl: {
 		type: String,
 	},
-  Videogames: [
+  videogames: [
     {
       ref: "Videogame",
 			type: Schema.Types.ObjectId    
