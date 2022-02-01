@@ -5,7 +5,7 @@ const videogameSchema = new Schema (
   title: {
     type: String,
   },
-  realeseDate: {
+  releaseDate: {
     type: Date,
   },
   description: {
