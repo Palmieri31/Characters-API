@@ -4,6 +4,8 @@ const logger = require('morgan');
 const { createRoles } = require('./libs/initialSetup');
 
 const usersRouter = require('./routes/users');
+const videogamesRouter = require('./routes/videogames');
+const charactersRouter = require('./routes/characters');
 
 const app = express();
 createRoles();
@@ -13,7 +15,9 @@ dotenv.config({ path: '.env' });
 app.use(express.json());
 app.use(logger('dev'));
 
-app.use('/users',usersRouter);
+app.use('/users', usersRouter);
+app.use('/videogames', videogamesRouter);
+app.use('/characters', charactersRouter);
 
 //ERROR HANDLER
 // error 404
