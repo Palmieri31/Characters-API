@@ -15,7 +15,7 @@ const tokenId = (req) => {
     error.status = 403;
     throw error;
   }
-  return decodedUser._id;
+  return decodedUser.id;
 };
 
 const isLoggedUser = (req, res, next) => {
@@ -30,7 +30,7 @@ const isLoggedUser = (req, res, next) => {
 const isAdmin = async (req, res, next) => {
   try {
     const id = tokenId(req);
-    const userFound = await usersService.getById(id),
+    const userFound = await usersService.getById(id);
     if (!userFound) {
       const error = new Error('no user found');
       error.status = 404;
@@ -42,7 +42,7 @@ const isAdmin = async (req, res, next) => {
       error.status = 403;
       throw error;
     }
-    if (userFound.roleId !== role._id) {
+    if (!userFound.roleId.equals(role._id)) {
       const error = new Error('Requiere admin role');
       error.status = 403;
       throw error;
