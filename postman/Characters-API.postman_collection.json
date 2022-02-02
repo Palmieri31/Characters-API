@@ -1,0 +1,376 @@
+{
+	"info": {
+		"_postman_id": "a7d75292-b3df-43a3-aeb1-f37cec01cba7",
+		"name": "Characters-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "videogames",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"god od war\",\r\n    \"releaseDate\": \"2012-12-12\",\r\n    \"description\": \"el dios de la guerra vuelve\",\r\n    \"imgUrl\": \"www.img.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Ruta}}/videogames",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"videogames"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Ruta}}/videogames/61f955e2725569b0a74ea96a",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"videogames",
+								"61f955e2725569b0a74ea96a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Ruta}}/videogames/61f955e2725569b0a74ea96a",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"videogames",
+								"61f955e2725569b0a74ea96a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"god od war 4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Ruta}}/videogames/61f955e2725569b0a74ea96a",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"videogames",
+								"61f955e2725569b0a74ea96a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auths",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"admin\",\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Ruta}}/users/register",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@user.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Ruta}}/users/login",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "characters",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"thor\",\r\n    \"creator\": \"playstation\",\r\n    \"firstApparition\": \"2012-12-12\",\r\n    \"imgUrl\": \"www.img.com\",\r\n    \"videogames\": [\"61f955e2725569b0a74ea96a\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Ruta}}/characters",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"characters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Ruta}}/characters/61fac077adb60cb1807c893b",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"characters",
+								"61fac077adb60cb1807c893b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Ruta}}/characters/61f98e64f72e588e975e31fa",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"characters",
+								"61f98e64f72e588e975e31fa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"zeus\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Ruta}}/characters/61f99dac757cd3b8481c03da",
+							"host": [
+								"{{Ruta}}"
+							],
+							"path": [
+								"characters",
+								"61f99dac757cd3b8481c03da"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
