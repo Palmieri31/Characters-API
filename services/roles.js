@@ -4,6 +4,6 @@ const getByName = async (roleName) => {
     return await rolesRepository.getByName(roleName);
 };
 
-modlule.exports = {
+module.exports = {
     getByName
 };
