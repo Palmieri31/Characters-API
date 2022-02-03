@@ -3,14 +3,14 @@ const usersService = require('../services/users');
 const rolesService = require('../services/roles');
 
 const tokenId = (req) => {
-  const token = req.headers['authorization'];
-  if(!token) {
+  const token = req.headers.authorization;
+  if (!token) {
     const error = new Error('No token provided!');
     error.status = 401;
     throw error;
   }
   const decodedUser = securityService.verifyToken(token);
-  if(!decodedUser) {
+  if (!decodedUser) {
     const error = new Error('Unauthorized! Please enter a valid token provided at login');
     error.status = 403;
     throw error;
@@ -37,7 +37,7 @@ const isAdmin = async (req, res, next) => {
       throw error;
     }
     const role = await rolesService.getByName('admin');
-    if(!role) {
+    if (!role) {
       const error = new Error('No role found');
       error.status = 403;
       throw error;
@@ -55,5 +55,5 @@ const isAdmin = async (req, res, next) => {
 
 module.exports = {
   isLoggedUser,
-  isAdmin
+  isAdmin,
 };

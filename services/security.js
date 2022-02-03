@@ -8,18 +8,18 @@ const generateToken = (user) => {
     username: user.username,
     email: user.email,
     password: user.password,
-    roleId: user.roleId
+    roleId: user.roleId,
   };
 
   const token = jwt.sign(userForToken, process.env.SECRET_TOKEN, {
-    expiresIn: '10h'
+    expiresIn: '10h',
   });
-  return token;   
-}
+  return token;
+};
 
 const verifyToken = (token) => {
-  const decodedToken = jwt.verify(token,process.env.SECRET_TOKEN);
-  if(!decodedToken) {
+  const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN);
+  if (!decodedToken) {
     const error = new Error('Invalid token');
     error.status = 401;
     throw error;
@@ -36,12 +36,11 @@ const encryptPassword = async (password) => {
 const comparePassword = async (password, receivedPassword) => {
   const result = await bcrypt.compare(password, receivedPassword);
   return result;
-}
+};
 
-
-module.exports = { 
-  generateToken, 
+module.exports = {
+  generateToken,
   verifyToken,
   encryptPassword,
-  comparePassword 
+  comparePassword,
 };

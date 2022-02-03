@@ -1,7 +1,15 @@
 const charactersService = require('../services/characters');
 
 const getAll = async (req, res, next) => {
-
+  try {
+    const characters = await charactersService.getAll(req);
+    res.status(200).json({
+      status: 200,
+      response: characters,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getById = async (req, res, next) => {
@@ -10,7 +18,7 @@ const getById = async (req, res, next) => {
     const character = await charactersService.getById(characterId);
     res.status(200).json(character);
   } catch (error) {
-    next(error);  
+    next(error);
   }
 };
 
@@ -20,7 +28,7 @@ const create = async (req, res, next) => {
     res.status(200).json({
       success: true,
       msg: ` character: ${response.name} has been created`,
-      character: response
+      character: response,
     });
   } catch (error) {
     next(error);
@@ -32,10 +40,10 @@ const update = async (req, res, next) => {
     const { characterId } = req.params;
     const response = await charactersService.update(req.body, characterId);
     res.status(200).json({
-        success: true,
-        msg: ` character: ${response.name} has been updated`,
-        character: response
-      });
+      success: true,
+      msg: ` character: ${response.name} has been updated`,
+      character: response,
+    });
   } catch (error) {
     next(error);
   }
@@ -46,20 +54,18 @@ const remove = async (req, res, next) => {
     const { characterId } = req.params;
     await charactersService.remove(characterId);
     res.status(200).json({
-        success: true,
-        msg: ` character has been deleted`,
+      success: true,
+      msg: 'character has been deleted',
     });
-  }catch (error) {
+  } catch (error) {
     next(error);
   }
 };
 
 module.exports = {
-    getAll,
-    getById,
-    create,
-    update,
-    remove
+  getAll,
+  getById,
+  create,
+  update,
+  remove,
 };
-
-

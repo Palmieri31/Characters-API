@@ -1,43 +1,52 @@
-const usersService = require('../services/users');
 const authsService = require('../services/auths');
 const security = require('../services/security');
-const res = require('express/lib/response');
-const req = require('express/lib/request');
 
 const register = async (req, res, next) => {
   try {
     const newUser = await authsService.register(req.body);
-    const token = security.generateToken(newUser);
+    const newToken = security.generateToken(newUser);
     res.status(200).json({
       success: true,
       msg: `${newUser.username} your user has been created`,
       user: newUser,
-      token: token
+      token: newToken,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const login = async (req, res ,next) => {
+const login = async (req, res, next) => {
   try {
-    const {email, password } = req.body;
-    const existingUser = await authsService.existEmailUser(email);
-    if(!existingUser) {
+    const existingUser = await authsService.existEmailUser(req.body.email);
+    if (!existingUser) {
       const error = new Error('email doesnt exists');
       error.status = 404;
       throw error;
     }
-    const match = await security.comparePassword(password, existingUser.password);
+    const match = await security.comparePassword(req.body.password, existingUser.password);
 
-    if(match) {
-      const { _id, username, email, password, roleId } = existingUser;
-      const user = {_id, username, email, password, roleId};
-      
+    if (match) {
+      const {
+        _id,
+        username,
+        email,
+        password,
+        roleId,
+      } = existingUser;
+
+      const user = {
+        _id,
+        username,
+        email,
+        password,
+        roleId,
+      };
+
       const token = security.generateToken(existingUser);
       res.status(200).json({
         accessToken: token,
-        user
+        user,
       });
     } else {
       const error = new Error('Invalid password or user');
@@ -54,7 +63,7 @@ const logout = async () => {
 };
 
 module.exports = {
-    register,
-    login,
-    logout
+  register,
+  login,
+  logout,
 };

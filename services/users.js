@@ -1,10 +1,7 @@
-const security = require('./security');
 const usersRepository = require('../repositories/users');
 
-const getById = async (id) => {
-    return await usersRepository.getById(id);
-}
+const getById = async (id) => usersRepository.getById(id);
 
 module.exports = {
-    getById
+  getById,
 };

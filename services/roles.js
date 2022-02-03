@@ -1,9 +1,7 @@
 const rolesRepository = require('../repositories/roles');
 
-const getByName = async (roleName) => {
-    return await rolesRepository.getByName(roleName);
-};
+const getByName = async (roleName) => rolesRepository.getByName(roleName);
 
 module.exports = {
-    getByName
+  getByName,
 };

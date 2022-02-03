@@ -1,23 +1,24 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
-const videogameSchema = new Schema (
-{
-  title: {
-    type: String,
+const videogameSchema = new Schema(
+  {
+    title: {
+      type: String,
+    },
+    releaseDate: {
+      type: Date,
+    },
+    description: {
+      type: String,
+    },
+    imgUrl: {
+      type: String,
+    },
   },
-  releaseDate: {
-    type: Date,
+  {
+    timestamps: true,
+    versionkey: false,
   },
-  description: {
-    type: String,
-  },
-  imgUrl: {
-    type: String,  
-  }
-},
-{
-  timestamps: true,
-  versionkey: false
-});
+);
 
 module.exports = model('Videogame', videogameSchema);
