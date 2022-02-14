@@ -27,7 +27,7 @@ const create = async (req, res, next) => {
     const response = await charactersService.create(req.body);
     res.status(200).json({
       success: true,
-      msg: ` character: ${response.name} has been created`,
+      msg: `character: ${response.name} has been created`,
       character: response,
     });
   } catch (error) {
@@ -41,7 +41,7 @@ const update = async (req, res, next) => {
     const response = await charactersService.update(req.body, characterId);
     res.status(200).json({
       success: true,
-      msg: ` character: ${response.name} has been updated`,
+      msg: `character: ${response.name} has been updated`,
       character: response,
     });
   } catch (error) {
