@@ -6,7 +6,9 @@ const sinon = require('sinon');
 
 const charactersController = require('../controllers/characters');
 const charactersService = require('../services/characters');
+const character = require('../models/character');
 
+let mockedCharactersService;
 let res;
 let stubStatus;
 let spyJson;
@@ -16,11 +18,12 @@ const characterName = 'character';
 const characterCreator = 'creator';
 const req = {
   body: { name: characterName, creator: characterCreator },
-  params: { id: 1 },
+  params: { _id: 1 },
 };
 
 mocha.describe('test charactersController', () => {
   mocha.beforeEach(() => {
+    mockedCharactersService = sinon.mock(charactersService);
     stubStatus = sinon.stub();
     spyJson = sinon.spy();
     stubStatus.returns({ json: spyJson });
@@ -46,7 +49,7 @@ mocha.describe('test charactersController', () => {
 
     stub = sinon.stub(charactersService, 'create').returns(expectedCreatedCharacter);
 
-    const character = await charactersController.create(req, res, spyNext);
+    await charactersController.create(req, res, spyNext);
 
     chai.assert.equal(res.status.calledOnce, true, 'asserts status is called 1 time');
     chai.assert.equal(res.status.args[0], 200, 'asserts status parameter is 200');
@@ -117,19 +120,23 @@ mocha.describe('test charactersController', () => {
       creator: characterCreator,
     };
 
-    stub = sinon.stub(charactersService, 'getById');
-    stub.withArgs().returns(expectedGetByIdCharacter);
+    stub = sinon.stub(charactersService, 'getById').callsFake((id) => {
+      if (id === req.params.id) {
+        return expectedGetByIdCharacter;
+      }
+    });
 
     await charactersController.getById(req, res, spyNext);
+
+    const result = stub(req.params.id);
 
     chai.assert.equal(res.status.calledOnce, true, 'asserts status is called 1 time');
     chai.assert.equal(res.status.args[0], 200, 'asserts status parameter is 200');
     chai.assert.equal(spyJson.calledOnce, true, 'asserts json is called 1 time');
-    chai.assert.isArray(spyJson.args[0], 'is a Array');
-    chai.assert.isObject(spyJson.args[0][0], 'is a Object');
-    chai.assert.equal(spyJson.args[0][0]._id, expectedGetByIdCharacter._id);
-    chai.assert.equal(spyJson.args[0][0].name, expectedGetByIdCharacter.name);
-    chai.assert.equal(spyJson.args[0][0].creator, expectedGetByIdCharacter.creator);
+    chai.assert.isObject(result, 'is a Object');
+    chai.assert.equal(result._id, expectedGetByIdCharacter._id);
+    chai.assert.equal(result.name, expectedGetByIdCharacter.name);
+    chai.assert.equal(result.creator, expectedGetByIdCharacter.creator);
   });
 
   mocha.it('GetById characters error', async () => {
@@ -146,5 +153,101 @@ mocha.describe('test charactersController', () => {
     await charactersController.getById(req, res, spyNext);
 
     chai.assert.equal(spyNext.args[0][0].message, expectedError.message);
+  });
+
+  mocha.it('update members success', async () => {
+    const expectedUpdateCharacter = {
+      _id: 1,
+      name: characterName,
+      creator: characterCreator,
+    };
+
+    const expectedJsonResult = {
+      success: true,
+      msg: `character: ${expectedUpdateCharacter.name} has been updated`,
+      character: expectedUpdateCharacter,
+    };
+
+    mockedCharactersService
+      .expects('update')
+      .withExactArgs(req.body, req.params.id)
+      .resolves(expectedUpdateCharacter);
+
+    await charactersController.update(req, res, spyNext);
+
+    chai.assert.equal(res.status.calledOnce, true, 'asserts status is called 1 time');
+    chai.assert.equal(res.status.args[0], 200, 'asserts status parameter is 200');
+    chai.assert.equal(spyJson.calledOnce, true, 'asserts json is called 1 time');
+    chai.assert.isArray(spyJson.args[0], 'is array');
+    chai.assert.isObject(spyJson.args[0][0], 'is an object');
+    chai.assert.equal(spyJson.args[0][0].success, expectedJsonResult.success);
+    chai.assert.equal(spyJson.args[0][0].msg, expectedJsonResult.msg);
+    chai.assert.isObject(spyJson.args[0][0].character, 'is an object');
+    chai.assert.equal(spyJson.args[0][0].character.id, expectedJsonResult.character.id);
+    chai.assert.equal(spyJson.args[0][0].character.name, expectedJsonResult.character.name);
+    chai.assert.equal(spyJson.args[0][0].character.creator, expectedJsonResult.character.creator);
+
+    mockedCharactersService.verify();
+  });
+
+  mocha.it('update members error', async () => {
+    const expectedError = new Error('character not found');
+    expectedError.status = 404;
+
+    const expectedErrorJson = {
+      status: expectedError.status,
+      message: expectedError.message,
+    };
+
+    stub = sinon.stub(charactersService, 'update').rejects(expectedErrorJson);
+
+    await charactersController.update(req, res, spyNext);
+
+    chai.assert.equal(spyNext.args[0][0].message, expectedError.message);
+  });
+
+  mocha.it('remove characters success', async () => {
+    const expectedResult = {
+      success: true,
+      msg: 'character has been deleted',
+    };
+
+    mockedCharactersService
+      .expects('remove')
+      .withExactArgs(req.params.id)
+      .resolves(expectedResult);
+
+    await charactersController.remove(req, res, spyNext);
+
+    chai.assert.equal(res.status.calledOnce, true, 'asserts status is called 1 time');
+    chai.assert.equal(res.status.args[0], 200, 'asserts status parameter is 200');
+    chai.assert.equal(spyJson.calledOnce, true, 'asserts json is called 1 time');
+    chai.assert.isArray(spyJson.args[0], 'is array');
+    chai.assert.isObject(spyJson.args[0][0], 'is an object');
+    chai.assert.equal(spyJson.args[0][0].msg, expectedResult.msg);
+
+    mockedCharactersService.verify();
+  });
+
+  mocha.it('remove character error', async () => {
+    const expectedError = new Error('character not found');
+    expectedError.status = 404;
+
+    const expectedErrorJson = {
+      status: expectedError.status,
+      message: expectedError.message,
+    };
+
+    mockedCharactersService
+      .expects('remove')
+      .withExactArgs(req.params.id)
+      .rejects(expectedErrorJson);
+
+    await charactersController.remove(req, res, spyNext);
+    chai.assert.equal(spyNext.calledOnce, true);
+    chai.assert.equal(spyNext.args[0][0].message, expectedError.message);
+    chai.assert.equal(spyNext.args[0][0].status, expectedError.status);
+
+    mockedCharactersService.verify();
   });
 });
