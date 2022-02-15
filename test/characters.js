@@ -6,7 +6,6 @@ const sinon = require('sinon');
 
 const charactersController = require('../controllers/characters');
 const charactersService = require('../services/characters');
-const character = require('../models/character');
 
 let mockedCharactersService;
 let res;
@@ -35,7 +34,7 @@ mocha.describe('test charactersController', () => {
     stub.restore();
   });
 
-  mocha.it('create member success', async () => {
+  mocha.it('create character success', async () => {
     const expectedCreatedCharacter = {
       name: characterName,
       creator: characterCreator,
@@ -121,14 +120,14 @@ mocha.describe('test charactersController', () => {
     };
 
     stub = sinon.stub(charactersService, 'getById').callsFake((id) => {
-      if (id === req.params.id) {
+      if (id === expectedGetByIdCharacter._id) {
         return expectedGetByIdCharacter;
       }
     });
 
     await charactersController.getById(req, res, spyNext);
 
-    const result = stub(req.params.id);
+    const result = stub(req.params._id);
 
     chai.assert.equal(res.status.calledOnce, true, 'asserts status is called 1 time');
     chai.assert.equal(res.status.args[0], 200, 'asserts status parameter is 200');
