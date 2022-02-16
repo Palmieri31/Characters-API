@@ -69,8 +69,7 @@ const update = async (data, id) => {
     error.status = 404;
     throw error;
   }
-  await charactersRepository.update(id, data);
-  return charactersRepository.getById(id);
+  return charactersRepository.update(id, data);
 };
 
 const remove = async (id) => {

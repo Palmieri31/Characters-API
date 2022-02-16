@@ -21,6 +21,7 @@ mocha.describe('test charactersService', () => {
 
   mocha.afterEach(() => {
     sandbox.restore();
+    mockedCharacterRepository.verify();
   });
 
   mocha.it('create character', async () => {
@@ -76,7 +77,6 @@ mocha.describe('test charactersService', () => {
 
     chai.assert.equal(countStub.calledOnce, true, 'asserts status is called 1 time');
 
-    mockedCharacterRepository.verify();
     mockedPaginationRequest.verify();
   });
 
@@ -88,16 +88,79 @@ mocha.describe('test charactersService', () => {
       name: characterName,
       creator: characterCreator,
     };
+
     mockedCharacterRepository
       .expects('getById')
+      .once()
       .withExactArgs(id)
       .resolves(expectedGetByIdCharacter);
 
     const result = await charactersService.getById(id);
+    chai.assert.isObject(result, 'is an object');
     chai.assert.equal(result.id, expectedGetByIdCharacter.id);
     chai.assert.equal(result.name, expectedGetByIdCharacter.name);
     chai.assert.equal(result.creator, expectedGetByIdCharacter.creator);
+  });
 
-    mockedCharacterRepository.verify();
+  mocha.it('update character', async () => {
+    const id = 1;
+
+    const expectedUpdateCharacter = {
+      id: 1,
+      name: characterName,
+      creator: characterCreator,
+    };
+
+    mockedCharacterRepository
+      .expects('getById')
+      .once()
+      .withExactArgs(id)
+      .resolves(expectedUpdateCharacter);
+
+    mockedCharacterRepository
+      .expects('update')
+      .once()
+      .withExactArgs(id, expectedUpdateCharacter)
+      .resolves(expectedUpdateCharacter);
+
+    const result = await charactersService.update(expectedUpdateCharacter, id);
+
+    chai.assert.isObject(result, 'is an object');
+    chai.assert.equal(result.id, expectedUpdateCharacter.id);
+    chai.assert.equal(result.name, expectedUpdateCharacter.name);
+    chai.assert.equal(result.creator, expectedUpdateCharacter.creator);
+  });
+
+  mocha.it('delete character', async () => {
+    const id = 1;
+
+    const expectedGetByIdCharacter = {
+      id: 1,
+      name: characterName,
+      creator: characterCreator,
+    };
+
+    const deletedResult = {
+      success: true,
+      msg: 'character has been deleted',
+    };
+
+    mockedCharacterRepository
+      .expects('getById')
+      .once()
+      .withExactArgs(id)
+      .resolves(expectedGetByIdCharacter);
+
+    mockedCharacterRepository
+      .expects('remove')
+      .once()
+      .withExactArgs(id)
+      .resolves(deletedResult);
+
+    const result = await charactersService.remove(id);
+
+    chai.assert.isObject(result, 'is an object');
+    chai.assert.equal(result.success, deletedResult.success);
+    chai.assert.equal(result.msg, deletedResult.msg);
   });
 });
