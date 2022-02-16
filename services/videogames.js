@@ -69,8 +69,7 @@ const update = async (data, id) => {
     error.status = 404;
     throw error;
   }
-  await videogamesRepository.update(id, data);
-  return videogamesRepository.getById(id);
+  return videogamesRepository.update(id, data);
 };
 
 const remove = async (id) => {
