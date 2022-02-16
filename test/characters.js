@@ -62,7 +62,7 @@ mocha.describe('test charactersController', () => {
   });
 
   mocha.it('create character error', async () => {
-    const expectedError = new Error('there was an error in member creation');
+    const expectedError = new Error('there was an error in character creation');
     expectedError.status = 403;
 
     stub = sinon.stub(charactersService, 'create').rejects(expectedError);
@@ -189,7 +189,7 @@ mocha.describe('test charactersController', () => {
     mockedCharactersService.verify();
   });
 
-  mocha.it('update members error', async () => {
+  mocha.it('update character error', async () => {
     const expectedError = new Error('character not found');
     expectedError.status = 404;
 
