@@ -16,12 +16,12 @@ const sandbox = sinon.createSandbox();
 
 mocha.describe('test charactersService', () => {
   mocha.beforeEach(() => {
-    mockedCharacterRepository = sinon.mock(charactersRepository);
+    mockedCharacterRepository = sandbox.mock(charactersRepository);
   });
 
   mocha.afterEach(() => {
-    sandbox.restore();
     mockedCharacterRepository.verify();
+    sandbox.restore();
   });
 
   mocha.it('create character', async () => {
@@ -45,7 +45,6 @@ mocha.describe('test charactersService', () => {
     };
     const maxcountExpected = 15;
     const limit = 10;
-    const countStub = sandbox.stub(charactersRepository, 'getCount').returns(maxcountExpected);
 
     const paginationDataExpected = {
       page: 1,
@@ -56,11 +55,6 @@ mocha.describe('test charactersService', () => {
       nextPageUrl: 'http://localhost:3000/characters?page=2',
     };
 
-    mockedPaginationRequest = sandbox.mock(paginationRequest)
-      .expects('pagination')
-      .withExactArgs(limit, maxcountExpected, req, 'characters')
-      .resolves(paginationDataExpected);
-
     const expectedGetAllCharacters = [
       {
         _id: 1,
@@ -69,6 +63,13 @@ mocha.describe('test charactersService', () => {
       },
     ];
 
+    const countStub = sandbox.stub(charactersRepository, 'getCount').returns(maxcountExpected);
+
+    mockedPaginationRequest = sandbox.mock(paginationRequest)
+      .expects('pagination')
+      .withExactArgs(limit, maxcountExpected, req, 'characters')
+      .resolves(paginationDataExpected);
+
     mockedCharacterRepository
       .expects('getAll')
       .resolves(expectedGetAllCharacters);
@@ -76,8 +77,7 @@ mocha.describe('test charactersService', () => {
     const getAllresult = await charactersService.getAll(req);
 
     chai.assert.equal(countStub.calledOnce, true, 'asserts status is called 1 time');
-
-    mockedPaginationRequest.verify();
+    chai.assert.isObject(getAllresult, 'is an Object');
   });
 
   mocha.it('getById character', async () => {
@@ -96,6 +96,7 @@ mocha.describe('test charactersService', () => {
       .resolves(expectedGetByIdCharacter);
 
     const result = await charactersService.getById(id);
+
     chai.assert.isObject(result, 'is an object');
     chai.assert.equal(result.id, expectedGetByIdCharacter.id);
     chai.assert.equal(result.name, expectedGetByIdCharacter.name);
