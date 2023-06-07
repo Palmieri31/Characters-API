@@ -7,7 +7,7 @@ const register = async (req, res, next) => {
     const newToken = security.generateToken(newUser);
     res.status(200).json({
       success: true,
-      msg: `${newUser.username} your user has been created`,
+      msg: `${newUser.username} your profile has been created`,
       user: newUser,
       token: newToken,
     });
@@ -24,16 +24,13 @@ const login = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
-    const match = await security.comparePassword(req.body.password, existingUser.password);
+    const match = await security.comparePassword(
+      req.body.password,
+      existingUser.password
+    );
 
     if (match) {
-      const {
-        _id,
-        username,
-        email,
-        password,
-        roleId,
-      } = existingUser;
+      const { _id, username, email, password, roleId } = existingUser;
 
       const user = {
         _id,
@@ -58,9 +55,7 @@ const login = async (req, res, next) => {
   }
 };
 
-const logout = async () => {
-
-};
+const logout = async () => {};
 
 module.exports = {
   register,
