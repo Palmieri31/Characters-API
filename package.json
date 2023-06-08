@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "mocha --reporter spec",
-    "release": "standard-version --release-as 1.1.0"
+    "release": "standard-version --release-as 1.2.0"
   },
   "author": "Federico Palmieri",
   "license": "ISC",
