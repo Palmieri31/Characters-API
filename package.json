@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "mocha --reporter spec",
-    "release": "standard-version --tag-prefix \"\""
+    "release": "standard-version"
   },
   "author": "Federico Palmieri",
   "license": "ISC",
