@@ -20,7 +20,7 @@ const login = async (req, res, next) => {
   try {
     const existingUser = await authsService.existEmailUser(req.body.email);
     if (!existingUser) {
-      const error = new Error('email doesnt exists');
+      const error = new Error('email doesnt exist');
       error.status = 404;
       throw error;
     }
