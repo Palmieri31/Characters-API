@@ -55,7 +55,7 @@ const remove = async (req, res, next) => {
     await videogamesService.remove(videogameId);
     res.status(200).json({
       success: true,
-      msg: 'videogame has been deleted',
+      msg: 'videogames has been deleted',
     });
   } catch (error) {
     next(error);
